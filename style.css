@@ -1,0 +1,359 @@
+/*
+Theme Name: Tierra Concepts
+Theme URI: http://anagr.am
+Author: Anagram
+Author URI: http://anagr.am
+Description: A custom theme for Tierra Concepts created by anagram.
+Version: 1.0
+License: GNU General Public License
+
+
+/* My Minimal WordPress Styling comes here */
+
+/* This is a small security for too long strings titles */
+body {
+    word-wrap: break-word;
+font-family: 'Muli', sans-serif;
+font-size: 14px;
+line-height: 1.428571429;
+background-color: #FFF;
+font-size: 14px;
+color: #000;
+}
+
+/* Alignment */
+.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 1.5em;
+}
+.alignright {
+	display: inline;
+	float: right;
+	margin-left: 1.5em;
+}
+.aligncenter {
+	clear: both;
+	display: block;
+	margin: 0 auto;
+}
+
+
+/* Images and wp-captions should always fit and be responsive */
+img {
+	display: inline-block;
+	height: auto;
+	max-width: 100%;
+}
+@media \0screen {img { width: auto }} /* Prevent height distortion in IE8. */
+img[class*="wp-image-"] {
+	margin-top: 4px;
+	margin-bottom: 10px;
+}
+.featured-image{
+	text-align: center;
+	margin-bottom: 20px;
+
+}
+.featured-image img{
+	margin: 0 auto;
+
+}
+.wp-caption {
+	border: 1px solid #ccc;
+	margin-bottom: 10px;
+	max-width: 100%;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	padding: 0 10px;
+}
+.wp-caption.aligncenter {
+	margin-bottom: 10px;
+}
+.wp-caption img[class*="wp-image-"] {
+	display: block;
+}
+.wp-caption .wp-caption-text {
+	text-align: center;
+	margin-top: 10px;
+}
+
+
+/* Make sure embeds and iframes fit their containers */
+embed,
+iframe,
+object {
+	max-width: 100%;
+}
+  video {
+            max-width: 100%;
+            height: auto;
+          }
+
+
+
+
+
+/* =Header
+--------------------------------------------------------------------------------------------------------*/
+.container-fluid.header{
+	background-color: #CDC4B3;
+}
+/*
+.site-title {
+color: #FFF;
+font-family: 'Futura-Medium', 'Futura', 'Trebuchet MS', sans-serif;
+font-size: 36px;
+font-weight: 500;
+line-height: 56px;
+text-align: center;
+text-decoration: none;
+text-transform: uppercase;
+margin: 0;
+}
+.site-title a{
+color: #FFF;
+text-decoration: none;
+}
+*/
+
+/* =Nav
+--------------------------------------------------------------------------------------------------------*/
+
+.navbar-default {
+background-color: transparent;
+border-color: transparent;
+}
+/*
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+padding-bottom: 10px;
+}
+.navbar {
+border-radius: 0;
+border: none;
+display: block;
+float: none;
+text-align: center;
+
+}
+.navbar-nav > li {
+display: inline-block;
+text-align: left;
+float: none;
+}
+
+.navbar-default .navbar-nav > li > a {
+color: #A1A1A1;
+font-size: 1.3em;
+padding: 0px 10px;
+}
+
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+color: #FFF;
+background-color: transparent;
+}
+
+.navbar-default .navbar-nav > li.current-menu-item > a {
+color: #FFF;
+background-color: transparent;
+}
+*/
+
+
+/* =Social
+--------------------------------------------------------------------------------------------------------*/
+
+.social { margin-right: 0px;float: right; }
+.social div { display:inline-block; padding: 0; }
+.social div a {display: block;  text-decoration:none; height:24px; width:24px;}
+/* End Social
+--------------------------------------------------------------------------------------------------------*/
+
+/* =Backtotop
+--------------------------------------------------------------------------------------------------------*/
+#backtotop { position:absolute; right: 30px;top: 0px;display:none; z-index:30; }
+#backtotop a { display:block;float:right;}
+#backtotop a:hover {  }
+
+
+
+
+/* =Site Styles
+--------------------------------------------------------------------------------------------------------*/
+.pageheader {
+font-size: 1.2em;
+font-style: italic;
+text-align: center;
+display:block;
+padding-bottom: 10px;
+}
+.mainheader {
+font-size: 1.4em;
+font-weight: 700;
+display: block;
+padding-bottom: 10px;
+}
+.subheader {
+font-size: 1.2em;
+/* line-height: 32px; */
+font-weight: 700;
+padding-bottom: 10px;
+display: inline-block;
+text-transform: uppercase;}
+
+a.button {
+	background: #74CCE5;
+	border-radius: 3px;
+	color: #FFF;
+	display: inline-block;
+	padding: 7px 14px 5px;
+	text-decoration: none;
+}
+
+
+a.button:hover {
+	text-decoration: none;
+}
+
+
+
+
+
+.fa-play-circle{
+margin-right: 10px;
+margin-top: 10px;
+color: #227AC7;
+font-size: 1.4em;
+}
+
+/* Content */
+
+article {
+	text-align: justify;
+
+}
+
+article a{
+	color: #FFF;
+	text-decoration: underline;
+
+}
+article  a:hover {
+color: #DDD;
+text-decoration: underline;
+}
+li{
+padding-bottom: 10px;
+}
+
+.section-bio{
+overflow: auto;
+	margin-bottom: 40px
+
+}
+.even .bio-image{
+float: left;
+margin-right: 10px;
+}
+.odd .bio-image{
+float: right;
+margin-left: 10px;
+}
+/* Clearing */
+.clear {
+	clear: both;
+}
+
+
+.gform_wrapper .gform_footer input.button, .gform_wrapper .gform_footer input[type=submit] {
+font-size: 1.4em;
+padding: 5px 10px;
+color: #000;
+}
+
+
+/* Text meant only for screen readers */
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute !important;
+}
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
+	height: auto;
+	left: 5px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000; /* Above WP toolbar */
+}
+
+/* Here some needed widget styles
+ * Most widgets are adapted in the file bootstrap-wp.js - and REALLY easy to modify! ;) */
+.widget { margin-bottom: 2em; }
+.widget_nav_menu ul.sub-menu li, .widget_pages ul.children li { padding-left: 15px; }
+
+/* Hiding the search widget's button in widgets. thats just too old-skool. :) but if you want it back, just delete the next line.
+ * Note: you can change the whole appearance of the search_form() function in our searchform.php */
+.widget_search .search-form input[type="submit"] { display: none; }
+
+/* Make sure select elements fit in widgets */
+.widget select {
+	max-width: 100%;
+}
+
+/* Nested comments? They are threaded and nested already, you just need to add your own styling to finalize!
+ * For example with some margin, like the line below ;) Delete, modify, change classes in HTML if you desire another style */
+ .comment .children { margin-left: 1.5em; }
+
+/*
+ *
+ * Here are a few needed CSS additions to integrate bootstrap truly into WordPress,
+ * We kept this slim as possible. Try to avoi any overwriting if not really needed.
+ */
+
+
+/* First fixing the dropdown menu.
+ * Most stuff is handled by the walker, but some styles need to be added too.
+ * Here we are removing the ">" from the original bootstrap styles, so it works for 2nd and 3rd level dropdown too..
+ * (actually not cool to use more than 1 level dropdown, but if YOU or your users want to do this, it won't break the layout now ;)  */
+.dropdown-menu li a {
+	display: block;
+	padding: 3px 20px;
+	clear: both;
+	font-weight: normal;
+	line-height: 1.428571429;
+	color: #333;
+	white-space: nowrap;
+}
+.dropdown-menu li a:hover,
+.dropdown-menu li a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #357ebd;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#428bca), to(#357ebd));
+  background-image: -webkit-linear-gradient(top, #428bca, 0%, #357ebd, 100%);
+  background-image: -moz-linear-gradient(top, #428bca 0%, #357ebd 100%);
+  background-image: linear-gradient(to bottom, #428bca 0%, #357ebd 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff428bca', endColorstr='#ff357ebd', GradientType=0);
+}
+.dropdown-menu ul { list-style: none; }
+
+/* Some modified padding for the bootstrap container.
+ * Now you can make many styles of design easily.
+ * Try with giving the .container class just a background colour and have a look. ;)
+ */
+.container { padding: 0 15px 15px 15px; }
