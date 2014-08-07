@@ -11,7 +11,11 @@
  */
 
 class wp_bootstrap_navwalker extends Walker_Nav_Menu {
-	
+
+	//static count for first and last class
+	static $count=0;
+
+
 	/**
 	 * @see Walker::start_lvl()
 	 * @since 3.0.0
@@ -19,16 +23,16 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int $depth Depth of page. Used for padding.
 	 */
-	function start_lvl( &$output, $depth ) {
-		
+	function start_lvl( &$output, $depth = 0, $args = array() ) {
+
 		$indent = str_repeat( "\t", $depth );
 		if($depth == 0){
-			$output	   .= "\n$indent<ul class=\"dropdown-menu\">\n";	
+			$output	   .= "\n$indent<ul class=\"dropdown-menu\">\n";
 		} else {
-			$output	   .= "\n$indent<ul>\n";	
-		
+			$output	   .= "\n$indent<ul>\n";
+
 		}
-				
+
 	}
 
 	/**
@@ -51,7 +55,7 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 	     * ==================
 		 * Determine whether the item is a Divider, Header, or regular menu item.
 		 * To prevent errors we use the strcasecmp() function to so a comparison
-		 * that is not case sensitive. The strcasecmp() function returns a 0 if 
+		 * that is not case sensitive. The strcasecmp() function returns a 0 if
 		 * the strings are equal.
 		 */
 		if (strcasecmp($item->title, 'divider') == 0) {
@@ -67,10 +71,28 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 
 			$class_names = $value = '';
 			$classes = empty( $item->classes ) ? array() : (array) $item->classes;
+
+			//Remove all classes that are not needed
+			$classes = is_array($classes) ? array_intersect($classes, array('current-menu-item','menu-item', 'current_page_parent')) : '';
+
+
 			$classes[] = ($item->current) ? 'active' : '';
-			$classes[] = 'menu-item-' . $item->ID;
+			$classes[] = 'menu-item-' . sanitize_title($item->title);
+			// reset var when we are in first level
+			if ($depth==0) self::$count++;  // increase counter
+			// if we are in submenu and items count is 1...
+	        if ($depth==0 && self::$count==1) {
+		        			$classes[] = 'first-menu-item';
+	        }
+
+
 			$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args ) );
 
+			/*
+				//http://discourse.roots.io/t/custom-post-type-singular-menu-class-active/775
+			$post_type = get_post_type();
+			var_dump($post_type);
+			*/
 			if ($args->has_children && $depth > 0) {
 				$class_names .= ' dropdown-submenu';
 			} else if($args->has_children && $depth === 0) {
@@ -90,7 +112,7 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 			$attributes .= ($args->has_children) 	    ? ' data-toggle="dropdown" data-target="#" class="dropdown-toggle"' : '';
 
 			$item_output = $args->before;
-			
+
 			/**
 			 * Glyphicons
 			 * ===========
@@ -103,12 +125,14 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 			} else {
 				$item_output .= '<a'. $attributes .'>';
 			}
-			
+
 			$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
 			$item_output .= ($args->has_children && $depth == 0) ? ' <span class="caret"></span></a>' : '</a>';
 			$item_output .= $args->after;
 
 			$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+
+
 		}
 	}
 
@@ -117,7 +141,7 @@ class wp_bootstrap_navwalker extends Walker_Nav_Menu {
 	 *
 	 * Display one element if the element doesn't have any children otherwise,
 	 * display the element and its children. Will only traverse up to the max
-	 * depth and no ignore elements under that depth. 
+	 * depth and no ignore elements under that depth.
 	 *
 	 * This method shouldn't be called directly, use the walk() method instead.
 	 *

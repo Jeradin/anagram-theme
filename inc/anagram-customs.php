@@ -171,55 +171,6 @@ $shareicons = '<a onClick="MyWindow=window.open(\'http://twitter.com/home?status
 
 
 
-
-// As of WP 3.1.1 addition of classes for css styling to parents of custom post types doesn't exist.
-// We want the correct classes added to the correct custom post type parent in the wp-nav-menu for css styling and highlighting, so we're modifying each individually...
-// The id of each link is required for each one you want to modify
-// Place this in your WordPress functions.php file
-
-function add_first_and_last($output) {
-  $output = preg_replace('/class="menu-item/', 'class="first-menu-item menu-item', $output, 1);
-  $output = substr_replace($output, 'class="last-menu-item menu-item', strripos($output, 'class="menu-item'), strlen('class="menu-item'));
-  return $output;
-}
-add_filter('wp_nav_menu', 'add_first_and_last');
-
-
-function remove_parent_classes($class)
-{
-  // check for current page classes, return false if they exist.
-	return ($class == 'current_page_item' || $class == 'current_page_parent' || $class == 'current_page_ancestor'  || $class == 'current-menu-item') ? FALSE : TRUE;
-}
-
-
-add_filter('nav_menu_css_class', 'my_css_attributes_filter', 100, 2);
-//add_filter('nav_menu_item_id', 'my_css_attributes_filter', 100, 1);
-//add_filter('page_css_class', 'my_css_attributes_filter', 100, 1);
-function my_css_attributes_filter($classes,$item) {
- //clean up classes
-  $classes = is_array($classes) ? array_intersect($classes, array('current-menu-item','menu-item','current_page_parent')) : '';
-//push page name to menu
-  array_push($classes,  'menu-item-'.sanitize_title($item->title) );
-
-//Add first menu item
-   //if( 'Home' == $item->title ){array_push($classes,  'first-menu-item' );}
-
-
-//remove blog post from beging highlighted
-     if( get_post_type() == 'press' ) {
-     $classes = array_filter($classes, "remove_parent_classes");
-     		// add the current page class to a specific menu item (replace ###).
-     		if (in_array('menu-item-press', $classes))
-     		{
-     			array_push($classes, 'current-menu-item');
-	 		 }
-     }
-
-  return $classes;
-
-}
-
-
 /*
 *	Display Caption
 */
