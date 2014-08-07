@@ -1,9 +1,9 @@
 /*
-Theme Name: Tierra Concepts
+Theme Name: Anagram Temp
 Theme URI: http://anagr.am
 Author: Anagram
 Author URI: http://anagr.am
-Description: A custom theme for Tierra Concepts created by anagram.
+Description: A custom theme for Anagram Temp created by anagram.
 Version: 1.0
 License: GNU General Public License
 
@@ -36,6 +36,11 @@ color: #000;
 	clear: both;
 	display: block;
 	margin: 0 auto;
+}
+
+
+.clear {
+	clear: both;
 }
 
 
@@ -124,7 +129,7 @@ text-decoration: none;
 background-color: transparent;
 border-color: transparent;
 }
-/*
+
 
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {
 padding-bottom: 10px;
@@ -159,7 +164,7 @@ background-color: transparent;
 color: #FFF;
 background-color: transparent;
 }
-*/
+
 
 
 /* =Social
@@ -176,6 +181,27 @@ background-color: transparent;
 #backtotop { position:absolute; right: 30px;top: 0px;display:none; z-index:30; }
 #backtotop a { display:block;float:right;}
 #backtotop a:hover {  }
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  background-color: #f5f5f5;
+}
 
 
 
@@ -218,60 +244,6 @@ a.button:hover {
 }
 
 
-
-
-
-.fa-play-circle{
-margin-right: 10px;
-margin-top: 10px;
-color: #227AC7;
-font-size: 1.4em;
-}
-
-/* Content */
-
-article {
-	text-align: justify;
-
-}
-
-article a{
-	color: #FFF;
-	text-decoration: underline;
-
-}
-article  a:hover {
-color: #DDD;
-text-decoration: underline;
-}
-li{
-padding-bottom: 10px;
-}
-
-.section-bio{
-overflow: auto;
-	margin-bottom: 40px
-
-}
-.even .bio-image{
-float: left;
-margin-right: 10px;
-}
-.odd .bio-image{
-float: right;
-margin-left: 10px;
-}
-/* Clearing */
-.clear {
-	clear: both;
-}
-
-
-.gform_wrapper .gform_footer input.button, .gform_wrapper .gform_footer input[type=submit] {
-font-size: 1.4em;
-padding: 5px 10px;
-color: #000;
-}
 
 
 /* Text meant only for screen readers */
