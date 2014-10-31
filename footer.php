@@ -13,15 +13,15 @@
 <div class="clearfix copyright"><span>&copy;<?php echo bloginfo('title'); ?>  <?php echo date('Y'); ?></span>Powered by <a href="http://anagr.am" target="_blank"><img src="<?php bloginfo('template_directory'); ?>/img/anagram/anagram-logo-w.png" alt="Anagram"  /></a></div>
 
 				</div><!-- close .site-info -->
-		<!-- BACK TO TOP BUTTON -->
-<div id="backtotop">
- <a id="toTop" href="#" onClick="return false"><i class="fa fa-chevron-up fa-lg"></i></a>
-</div>
+
 
 </footer><!-- close #colophon -->
 			</div>
 		</div>
-
+		<!-- BACK TO TOP BUTTON -->
+<div id="backtotop">
+ <a id="toTop" href="#" onClick="return false"><i class="fa fa-chevron-up fa-lg"></i></a>
+</div>
 </div><!-- close .container -->
 
 <?php wp_footer(); ?>

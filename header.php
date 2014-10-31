@@ -2,7 +2,7 @@
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title><?php wp_title( '|', true, 'right' ); ?></title>
 
 <link rel="profile" href="http://gmpg.org/xfn/11" />
@@ -11,7 +11,9 @@
 <!--[if lt IE 9]>
 <script src="<?php echo get_template_directory_uri(); ?>/js/ie/html5.js" type="text/javascript"></script>
 <![endif]-->
+<link rel="icon" href="<?php echo get_template_directory_uri(); ?>/img/favicon.png" type="image/png" />
 <?php wp_head(); ?>
+
 </head>
 
 <body <?php body_class(); ?>>
@@ -29,6 +31,26 @@
 						</div>
 
 		</header><!-- #masthead -->
+
+<div class="social-links">
+				<a href="http://instagram.com/" target="_blank"><span class="fa-stack">
+				  <i class="fa fa-circle-thin fa-stack-2x"></i>
+				  <i class="fa fa-instagram fa-stack-1x"></i>
+				</span></a>
+
+				<a href="https://www.facebook.com/" target="_blank">
+				<span class="fa-stack">
+				  <i class="fa fa-circle-thin fa-stack-2x "></i>
+				  <i class="fa fa-facebook fa-stack-1x"></i>
+				</span>
+				</a>
+
+								<a href="https://twitter.com/" target="_blank"><span class="fa-stack">
+				  <i class="fa fa-circle-thin fa-stack-2x"></i>
+				  <i class="fa fa-twitter fa-stack-1x"></i>
+				</span></a>
+				</div>
+
 
 		<nav class="site-navigation">
 					<div class="site-navigation-inner">

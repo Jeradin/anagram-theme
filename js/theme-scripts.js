@@ -4,7 +4,10 @@ jQuery(function($) {
 
  $(".entry-content").fitVids();
 
-
+//Switch url to app for iphones
+ $(".social-links a").switcher();
+//lazy load video
+//$('iframe').sleepyHead();
 
 /*Scroll to top code*/
 	jQuery(window).scroll(function() {

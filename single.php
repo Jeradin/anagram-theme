@@ -21,8 +21,8 @@
 	</div><!-- .entry-content -->
 
 	<footer class="entry-meta">
-			<div class="category"><?php echo get_the_category_list(); // Display the categories this post belongs to, as links ?></div>
-			<div class="tags"><?php echo get_the_tag_list( '| &nbsp;', '&nbsp;' ); // Display the tags this post has, as links separated by spaces and pipes ?></div>
+			<div class="cat-links"><?php echo get_the_category_list(); // Display the categories this post belongs to, as links ?></div>
+			<div class="tags-links"><?php echo get_the_tag_list( '| &nbsp;', '&nbsp;' ); // Display the tags this post has, as links separated by spaces and pipes ?></div>
 	</footer><!-- .entry-meta -->
 
 			<?php previous_post_link( '<li class="nav-previous previous">%link</li>', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'anagram_coal' ) . '</span> %title' ); ?>

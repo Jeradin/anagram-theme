@@ -39,7 +39,7 @@ function anagram_theme_setup() {
 			//add_image_size( 'tiny', 75, '', false );
 			//add_image_size( 'block-image', 300, 170, true );
 
-		add_theme_support('html5', ['comment-list', 'comment-form', 'search-form', 'gallery', 'caption']);
+		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
     }
 
 
@@ -79,8 +79,9 @@ add_action( 'widgets_init', 'anagram_theme_widgets_init' );
 
 function anagram_theme_scripts()  {
 
-	 // load bootstrap css
-	wp_enqueue_style( 'anagram_theme-bootstrap', get_stylesheet_directory_uri().'/bootstrap/css/bootstrap.css', array(), filemtime( get_stylesheet_directory().'/bootstrap/css/bootstrap.css') );
+		// load bootstrap
+	wp_enqueue_style( 'anagram_theme-bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' );
+
 
 	// get the theme directory style.css and link to it in the header
 	wp_enqueue_style( 'anagram_theme-style', get_stylesheet_directory_uri().'/style.css', array(), filemtime( get_stylesheet_directory().'/style.css') );
@@ -92,17 +93,20 @@ function anagram_theme_scripts()  {
     wp_enqueue_style('custom-google-fonts', add_query_arg( $my_query_args, "http://fonts.googleapis.com/css" ), array(), null );*/
 
 	// load awesome font
-	wp_enqueue_style( 'anagram-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' );
+	wp_enqueue_style( 'anagram_theme-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' );
 
+	 // load gforms-style.css
+	wp_enqueue_style( 'anagram_gforms-style', get_stylesheet_directory_uri().'/css/gforms-style.css', array(), filemtime( get_stylesheet_directory().'/css/gforms-style.css') );
 
     // load bootstrap js
-    wp_enqueue_script('anagram_theme-bootstrapjs', get_template_directory_uri().'/bootstrap/js/bootstrap.js', array('jquery') );
-
-    // load bootstrap wp js
-    wp_enqueue_script( 'anagram_theme-bootstrapwp', get_template_directory_uri() . '/js/bootstrap-wp.js', array('jquery') );
+    wp_enqueue_script('anagram_theme-bootstrapjs', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js', array('jquery') );
 
 	// load plugins
 	wp_enqueue_script('anagram_theme-plugins', (get_template_directory_uri()."/js/theme-plugins.js"),'jquery',filemtime( get_stylesheet_directory().'/js/theme-plugins.js'),true);
+
+			// add theme scripts
+	wp_enqueue_script('anagram_howto-gform', (get_template_directory_uri()."/js/gforms-custom.js"),'jquery',filemtime( get_stylesheet_directory().'/js/gforms-custom.js'),true);
+
 
 	// add theme scripts
 	wp_enqueue_script('anagram_theme-scripts', (get_template_directory_uri()."/js/theme-scripts.js"),'jquery',filemtime( get_stylesheet_directory().'/js/theme-scripts.js'),true);
@@ -116,5 +120,14 @@ add_action( 'wp_enqueue_scripts', 'anagram_theme_scripts' ); // Register this fx
 require get_template_directory() . '/inc/bootstrap-wp-navwalker.php';
 
 
+require get_template_directory() . '/inc/mobile_detect.php';
+$detect = new Mobile_Detect;
+$deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
+
+
 require get_template_directory() . '/inc/anagram-customs.php';
+
+
+
+require get_template_directory() . '/inc/BFI_Thumb.php';
 

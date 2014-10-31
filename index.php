@@ -1,56 +1,41 @@
 <?php get_header(); ?>
 	<?php if ( have_posts() ) : ?>
 
+	<header class="page-header">
+		<h1 class="page-title"><?php _e( 'News', 'anagram_coal' ); ?></h1>
+	</header><!-- .page-header -->
+
 		<?php /* Start the Loop */ ?>
 		<?php while ( have_posts() ) : the_post(); ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="page-header">
-		<h1 class="page-title"><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></h1>
+
+
+
+	<div class="entry-summary row">
+		<div class="col-md-3">
+		<?php echo get_the_post_thumbnail(); ?>
+		</div>
+		<div class="col-md-9">
+			<h3 class="page-title"><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
 
 		<?php if ( 'post' == get_post_type() ) : ?>
 		<div class="entry-meta">
 			<?php the_time('m/d/Y'); // Display the time published ?>
 		</div><!-- .entry-meta -->
 		<?php endif; ?>
-	</header><!-- .entry-header -->
-
-	<?php if ( is_search() || is_archive() ) : // Only display Excerpts for Search and Archive Pages ?>
-	<div class="entry-summary">
 		<?php the_excerpt(); ?>
-	</div><!-- .entry-summary -->
-	<?php else : ?>
-	<div class="entry-content">
-		<?php the_content( __( 'Continue reading <span class="meta-nav">&rarr;</span>', 'anagram_coal' ) ); ?>
-		<?php
-			wp_link_pages( array(
-				'before' => '<div class="page-links">' . __( 'Pages:', 'anagram_coal' ),
-				'after'  => '</div>',
-			) );
-		?>
-	</div><!-- .entry-content -->
-	<?php endif; ?>
-				<!-- pagintation -->
-				<div id="pagination" class="clearfix">
-					<div class="past-page"><?php previous_posts_link( 'newer' ); // Display a link to  newer posts, if there are any, with the text 'newer' ?></div>
-					<div class="next-page"><?php next_posts_link( 'older' ); // Display a link to  older posts, if there are any, with the text 'older' ?></div>
-				</div><!-- pagination -->
-	<footer class="entry-meta">
+			<footer class="entry-meta">
 		<?php if ( 'post' == get_post_type() ) : // Hide category and tag text for pages on Search ?>
-			<span class="cat-links">
+			<div class="cat-links">
 				<?php echo get_the_category_list(); // Display the categories this post belongs to, as links ?>
-			</span>
+			</div>
 
-			<span class="tags-links">
-				<?php echo get_the_tag_list( '| &nbsp;', '&nbsp;' ); // Display the tags this post has, as links separated by spaces and pipes ?><
-			</span>
+
 		<?php endif; // End if 'post' == get_post_type() ?>
-
-		<?php if ( ! post_password_required() && ( comments_open() || '0' != get_comments_number() ) ) : ?>
-		<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'anagram_coal' ), __( '1 Comment', 'anagram_coal' ), __( '% Comments', 'anagram_coal' ) ); ?></span>
-		<?php endif; ?>
-
-		<?php edit_post_link( __( 'Edit', 'anagram_coal' ), '<span class="edit-link">', '</span>' ); ?>
 	</footer><!-- .entry-meta -->
+		</div>
+	</div><!-- .entry-summary -->
+
 </article><!-- #post-## -->
 		<?php endwhile; ?>
 
@@ -70,11 +55,7 @@
 	</header><!-- .page-header -->
 
 	<div class="page-content">
-		<?php if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
-
-			<p><?php printf( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'anagram_coal' ), esc_url( admin_url( 'post-new.php' ) ) ); ?></p>
-
-		<?php elseif ( is_search() ) : ?>
+		<?php if ( is_search() ) : ?>
 
 			<p><?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'anagram_coal' ); ?></p>
 			<?php get_search_form(); ?>

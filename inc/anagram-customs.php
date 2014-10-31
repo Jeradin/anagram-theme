@@ -5,12 +5,24 @@
  */
 
 
-// Removes Comments from admin menu
+//Add options page to ACF 5
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page(array(
+		'page_title' 	=> 'Global Options',
+		'menu_title'	=> 'Global Options',
+		'menu_slug' 	=> 'global-options',
+		'position'      => 10,
+		//'capability'	=> 'edit_posts',
+		//'redirect'		=> false
+	));
+}
+
+// Edit admin menu
 add_action( 'admin_menu', 'anagram_admin_menus' );
 function anagram_admin_menus() {
 		if (!current_user_can('manage_options')) {
 
-		    remove_menu_page( 'edit-comments.php' );
+		    //remove_menu_page( 'edit-comments.php' );
 		    //remove_menu_page('edit.php');
 		    remove_menu_page('tools.php'); // Tools
 
@@ -22,7 +34,7 @@ function anagram_admin_menus() {
 
 }
 // Removes Comments from post and pages
-add_action('init', 'remove_comment_support', 100);
+//add_action('init', 'remove_comment_support', 100);
 
 function remove_comment_support() {
     remove_post_type_support( 'post', 'comments' );
@@ -33,7 +45,7 @@ function anagram_admin_bar_render() {
     global $wp_admin_bar;
 	$wp_admin_bar->remove_menu('comments');
 }
-add_action( 'wp_before_admin_bar_render', 'anagram_admin_bar_render' );
+//add_action( 'wp_before_admin_bar_render', 'anagram_admin_bar_render' );
 
 
 
@@ -55,6 +67,60 @@ function yoasttobottom() {
 }
 add_filter( 'wpseo_metabox_prio', 'yoasttobottom');
 
+
+
+
+/**
+ * Add blank to all external links
+ *
+ * @param string $user
+ * @param string $username
+ * @param string $password
+ */
+add_filter('acf/format_value/type=wysiwyg', 'anagram_add_blank', 10, 3);
+add_filter( 'the_content' , 'anagram_add_blank' );
+// add_filter( 'comment_text' , 'mh_add_blank' );
+
+function anagram_add_blank( $content ) {
+
+// Regex to put all <a href="http://some-url-here/path/etc" into an array
+$mh_url_regex = "/\<a\ href\=\"(http|https)\:\/\/[a-zA-Z0-9\-\.]+[a-zA-Z]{2,3}.*\"[\ >]/";
+
+preg_match_all( $mh_url_regex , $content, $mh_matches );
+
+// Go through that array and add target="_blank" to external links
+for ( $mh_count = 0; $mh_count < count( $mh_matches[0] ); $mh_count++ )
+        {
+        $mh_old_url = $mh_matches[0][$mh_count];
+        // $mh_new_url = str_replace( '" ' , '" target="_blank" ' , $mh_matches[0][$mh_count] );
+        $mh_new_url = str_replace( '">' , '" target="_blank">' , $mh_matches[0][$mh_count] );
+
+        // Array of destinations we don't want to apply the hack to.
+        // Your home URL will get excluded but you can add to this array.
+        // Partial matches work here, the more specific the better.
+
+        $mh_ignore = array(
+                home_url( '/' ),
+                'wordpress.org/'
+                );
+
+        // Make the substitution on all links except the ignore list
+        if( !anagram_array_find( $mh_old_url , $mh_ignore ) )
+                $content = str_replace( $mh_old_url  , $mh_new_url , $content );
+        }
+
+return $content;
+}
+
+// Only see if the array element is contained in the string
+function anagram_array_find( $needle , $haystack ) {
+        if(!is_array($haystack)) return false;
+        foreach ($haystack as $key=>$item) {
+                // See if the item is in the needle
+                if (strpos($needle, $item ) !== false) return true;
+        }
+        return false;
+}
 
 /**
  * If an email address is entered in the username box, then look up the matching username and authenticate as per normal, using that.
@@ -94,14 +160,22 @@ add_action( 'login_form', 'username_or_email_login' );
 
 
 /*Custom Tiny MCS buttons*/
-add_filter( 'mce_buttons', 'my_mce_buttons' );
-function my_mce_buttons( $buttons ) {
+add_filter( 'mce_buttons', 'anagram_mce_buttons' );
+function anagram_mce_buttons( $buttons ) {
     array_unshift( $buttons, 'styleselect' );
     return $buttons;
 }
+function anagram_tinymce_buttons($buttons)
+ {
+	//Remove the format dropdown select and text color selector
+	$remove = array('formatselect');
 
-add_filter( 'tiny_mce_before_init', 'my_mce_before_init' );
-function my_mce_before_init( $settings ) {
+	return array_diff($buttons,$remove);
+ }
+add_filter('mce_buttons_2','anagram_tinymce_buttons');
+
+add_filter( 'tiny_mce_before_init', 'anagram_mce_before_init' );
+function anagram_mce_before_init( $settings ) {
 	//$settings['theme_advanced_blockformats'] = 'p,a,div,span,h1,h2,h3,h4,h5,h6,tr,';
 	$settings['theme_advanced_disable'] = 'formatselect';
 
@@ -171,6 +245,32 @@ $shareicons = '<a onClick="MyWindow=window.open(\'http://twitter.com/home?status
 
 
 
+
+function clean_excerpt( $text='', $length = 55 )
+{
+	 global $post;
+	  if($text=='')$text = get_the_content('');
+    $text = strip_shortcodes( $text );
+    $text = apply_filters('the_content', $text);
+    $text = str_replace(']]>', ']]&gt;', $text);
+    $excerpt_length = apply_filters('excerpt_length', $length);
+    $excerpt_more = apply_filters('excerpt_more', ' ' . '...');
+    return wp_trim_words( $text, $excerpt_length, $excerpt_more );
+}
+
+
+
+/*
+*	Replaces the excerpt "more" text by a link
+*/
+
+function new_excerpt_more($more) {
+       global $post;
+	return '<a class="moretag" href="'. get_permalink($post->ID) . '"> Read more....</a>';
+}
+add_filter('excerpt_more', 'new_excerpt_more');
+
+
 /*
 *	Display Caption
 */
@@ -182,6 +282,163 @@ function be_display_image_and_caption($size='medium') {
 }
 
 
+/**
+ * Filters wp_title to print a neat <title> tag based on what is being viewed.
+ */
+function anagram_wp_title( $title, $sep ) {
+	global $page, $paged;
+
+	if ( is_feed() )
+		return $title;
+
+	// Add the blog name
+	$title .= get_bloginfo( 'name' );
+
+	// Add the blog description for the home/front page.
+	$site_description = get_bloginfo( 'description', 'display' );
+	if ( $site_description && ( is_home() || is_front_page() ) )
+		$title .= " $sep $site_description";
+
+	// Add a page number if necessary:
+	if ( $paged >= 2 || $page >= 2 )
+		$title .= " $sep " . sprintf( __( 'Page %s', '_tk' ), max( $paged, $page ) );
+
+	return $title;
+}
+add_filter( 'wp_title', 'anagram_wp_title', 10, 2 );
+
+
+/**
+ * Given a string containing any combination of YouTube and Vimeo video URLs in
+ * a variety of formats (iframe, shortened, etc), each separated by a line break,
+ * parse the video string and determine it's valid embeddable URL for usage in
+ * popular JavaScript lightbox plugins.
+ *
+ * In addition, this handler grabs both the maximize size and thumbnail versions
+ * of video images for your general consumption. In the case of Vimeo, you must
+ * have the ability to make remote calls using file_get_contents(), which may be
+ * a problem on shared hosts.
+ *
+ * Data gets returned in the format:
+ *
+ * array(
+ *   array(
+ *     'url' => 'http://path.to/embeddable/video',
+ *     'thumbnail' => 'http://path.to/thumbnail/image.jpg',
+ *     'fullsize' => 'http://path.to/fullsize/image.jpg',
+ *   )
+ * )
+ *
+ * @param       string  $videoString
+ * @return      array   An array of video metadata if found
+ *
+ * @author      Corey Ballou http://coreyballou.com
+ * @copyright   (c) 2012 Skookum Digital Works http://skookum.com
+ * @license
+ */
+function parseVideos($videoString = null)
+{
+    // return data
+    $videos = array();
+
+    if (!empty($videoString)) {
+
+        // split on line breaks
+        $videoString = stripslashes(trim($videoString));
+        $videoString = explode("\n", $videoString);
+        $videoString = array_filter($videoString, 'trim');
+
+        // check each video for proper formatting
+        foreach ($videoString as $video) {
+
+            // check for iframe to get the video url
+            if (strpos($video, 'iframe') !== FALSE) {
+                // retrieve the video url
+                $anchorRegex = '/src="(.*)?"/isU';
+                $results = array();
+                if (preg_match($anchorRegex, $video, $results)) {
+                    $link = trim($results[1]);
+                }
+            } else {
+                // we already have a url
+                $link = $video;
+            }
+
+            // if we have a URL, parse it down
+            if (!empty($link)) {
+
+                // initial values
+                $video_id = NULL;
+                $videoIdRegex = NULL;
+                $video_source = NULL;
+                $results = array();
+
+                // check for type of youtube link
+                if (strpos($link, 'youtu') !== FALSE) {
+
+						 $url_string = parse_url($link, PHP_URL_QUERY);
+						 parse_str($url_string, $args);
+						 $video_source = 'youtube';
+						 $video_id = isset($args['v']) ? $args['v'] : false;
+                }
+                // handle vimeo videos
+                else if (strpos($video, 'vimeo') !== FALSE) {
+                 $video_source = 'vimeo';
+                    if (strpos($video, 'player.vimeo.com') !== FALSE) {
+                        // works on:
+                        // http://player.vimeo.com/video/37985580?title=0&amp;byline=0&amp;portrait=0
+                        $videoIdRegex = '/player.vimeo.com\/video\/([0-9]+)\??/i';
+                    } else {
+                        // works on:
+                        // http://vimeo.com/37985580
+                        $videoIdRegex = '/vimeo.com\/([0-9]+)\??/i';
+                    }
+
+                    if ($videoIdRegex !== NULL) {
+                        if (preg_match($videoIdRegex, $link, $results)) {
+                            $video_id = $results[1];
+
+                            // get the thumbnail
+                           /* try {
+                                $hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/$video_id.php"));
+                                if (!empty($hash) && is_array($hash)) {
+                                    $video_str = 'http://vimeo.com/moogaloop.swf?clip_id=%s';
+                                    $thumbnail_str = $hash[0]['thumbnail_small'];
+                                    $fullsize_str = $hash[0]['thumbnail_large'];
+                                } else {
+                                    // don't use, couldn't find what we need
+                                    unset($video_id);
+                                }
+                            } catch (Exception $e) {
+                                unset($video_id);
+                            }*/
+                        }
+                    }
+                }
+
+                // check if we have a video id, if so, add the video metadata
+                if (!empty($video_id)) {
+                    // add to return
+                    $videos = array(
+                    	'video_id' => $video_id,
+                        'source' => $video_source
+                    );
+                   /* $videos[] = array(
+                    	'video_id' => $video_id,
+                        'url' => sprintf($video_str, $video_id),
+                        'thumbnail' => sprintf($thumbnail_str, $video_id),
+                        'fullsize' => sprintf($fullsize_str, $video_id)
+                    );*/
+                }
+            }
+
+        }
+
+    }
+
+    // return array of parsed videos
+    return $videos;
+}
 
 
 
@@ -335,7 +592,7 @@ unset( $submenu['themes.php'][15] );
 //hook the administrative header output
 // Create the function to use in the action hook
 
-function ntischool_remove_dashboard_widgets() {
+function anagram_remove_dashboard_widgets() {
 		global $wp_meta_boxes;
 
 	unset($wp_meta_boxes['dashboard']['side']['core']['dashboard_quick_press']);
@@ -350,7 +607,7 @@ function ntischool_remove_dashboard_widgets() {
 
 // Hoook into the 'wp_dashboard_setup' action to register our function
 
-add_action('wp_dashboard_setup', 'ntischool_remove_dashboard_widgets' );
+add_action('wp_dashboard_setup', 'anagram_remove_dashboard_widgets' );
 
 
 // Add all custom post types to the "Right Now" box on the Dashboard
@@ -386,25 +643,30 @@ function change_mce_options($init){
 add_filter('tiny_mce_before_init','change_mce_options');
 
 
+
 //Add analytics to head if setup in site options
 function anagram_google_analytics() {
 if ( class_exists( 'Acf' ) ) {
 	$anagram_google_analytics_id = get_field('google_analytics', 'options');
-	if (get_field('google_analytics', 'options')) {
-		echo "\n\t<script>\n";
-		echo "\n\t(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){\n";
-		echo "\t\t(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),\n";
-		echo "\t\tm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)\n";
-		echo "\t\t})(window,document,'script','//www.google-analytics.com/analytics.js','ga');\n";
-		echo "\t\tga('create', '$anagram_google_analytics_id', '".home_url('')."');\n";
-		echo "\t\tga('send', 'pageview');\n";
-		echo "\t</script>\n";
+	if (get_field('google_analytics', 'options')) {  ?>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '<?php echo $anagram_google_analytics_id ?>', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 
-	}
+<?php	}
 	}//if ACF is active
 }
 add_action('wp_head', 'anagram_google_analytics');
+
 
 
 
@@ -451,11 +713,17 @@ add_action('login_head', 'anagram_custom_login_logo');
 
  //Below is for login page
  // add a favicon for your login
-function login_favicon() {
+function anagram_login_favicon() {
 	echo '<link rel="Shortcut Icon" type="image/x-icon" href="'.get_bloginfo('template_directory').'/img/anagram/favicon.ico" />';
 }
-add_action('login_head', 'login_favicon');
+add_action('login_head', 'anagram_login_favicon');
 
+//Remove things form Admin bar
+add_action( 'admin_bar_menu', 'anagram_remove_wp_logo', 999 );
+
+function anagram_remove_wp_logo( $wp_admin_bar ) {
+	$wp_admin_bar->remove_node( 'wp-logo' );
+}
 
 
 /*

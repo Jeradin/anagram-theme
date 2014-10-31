@@ -9,7 +9,12 @@ License: GNU General Public License
 
 
 /* My Minimal WordPress Styling comes here */
-
+	html
+		{
+			/* killing 300ms touch delay in IE */
+			-ms-touch-action: manipulation;
+			touch-action: manipulation;
+		}
 /* This is a small security for too long strings titles */
 body {
     word-wrap: break-word;
@@ -38,11 +43,19 @@ color: #000;
 	margin: 0 auto;
 }
 
-
+.breaker{
+	height:30px;
+}
+.bottom-margin{
+	margin-bottom: 30px;
+}
 .clear {
 	clear: both;
 }
 
+a{
+	color:#50B5C4;
+}
 
 /* Images and wp-captions should always fit and be responsive */
 img {
@@ -131,39 +144,25 @@ border-color: transparent;
 }
 
 
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-padding-bottom: 10px;
-}
 .navbar {
 border-radius: 0;
 border: none;
-display: block;
-float: none;
-text-align: center;
 
 }
-.navbar-nav > li {
-display: inline-block;
-text-align: left;
-float: none;
-}
+
 
 .navbar-default .navbar-nav > li > a {
-color: #A1A1A1;
-font-size: 1.3em;
+color: #6D6E71;
 padding: 0px 10px;
+letter-spacing: 1px;
 }
 
 
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-color: #FFF;
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus,.navbar-default .navbar-nav > li.current-menu-item > a,.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: #50B5C4;
 background-color: transparent;
 }
 
-.navbar-default .navbar-nav > li.current-menu-item > a {
-color: #FFF;
-background-color: transparent;
-}
 
 
 
@@ -181,6 +180,37 @@ background-color: transparent;
 #backtotop { position:absolute; right: 30px;top: 0px;display:none; z-index:30; }
 #backtotop a { display:block;float:right;}
 #backtotop a:hover {  }
+
+
+
+/* =Post List
+--------------------------------------------------------------------------------------------------------*/
+
+.entry-meta{
+	color: #000;
+}
+
+
+.entry-summary {
+	margin-bottom: 20px;
+}
+
+
+
+/* =Category and Tag blocks
+--------------------------------------------------------------------------------------------------------*/
+.cat-links ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.cat-links ul a{
+
+}
+.tags-links a{
+	font-size: 12px;
+	line-height: 1;
+}
 
 
 
