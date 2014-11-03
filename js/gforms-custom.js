@@ -1,4 +1,10 @@
-/* Garlicjs dist/garlic.min.js build version 1.2.3 http://garlicjs.org */
+/*
+  Garlic.js allows you to automatically persist your forms' text field values locally,
+  until the form is submitted. This way, your users don't lose any precious data if they
+  accidentally close their tab or browser.
+
+  author: Guillaume Potier - @guillaumepotier
+*/
 !function(b){var h=function(){this.defined="undefined"!==typeof localStorage};h.prototype={constructor:h,get:function(a,b){return localStorage.getItem(a)?localStorage.getItem(a):"undefined"!==typeof b?b:null},has:function(a){return localStorage.getItem(a)?!0:!1},set:function(a,b,d){"string"===typeof b&&(""===b?this.destroy(a):localStorage.setItem(a,b));return"function"===typeof d?d():!0},destroy:function(a,b){localStorage.removeItem(a);return"function"===typeof b?b():!0},clean:function(a){for(var b=
 localStorage.length-1;0<=b;b--)"undefined"===typeof Array.indexOf&&-1!==localStorage.key(b).indexOf("garlic:")&&localStorage.removeItem(localStorage.key(b));return"function"===typeof a?a():!0},clear:function(a){localStorage.clear();return"function"===typeof a?a():!0}};var j=function(a,b,d){this.init("garlic",a,b,d)};j.prototype={constructor:j,init:function(a,c,d,f){this.type=a;this.$element=b(c);this.options=this.getOptions(f);this.storage=d;this.path=this.options.getPath(this.$element)||this.getPath();
 this.parentForm=this.$element.closest("form");this.$element.addClass("garlic-auto-save");this.expiresFlag=!this.options.expires?!1:(this.$element.data("expires")?this.path:this.getPath(this.parentForm))+"_flag";this.$element.on(this.options.events.join("."+this.type+" "),!1,b.proxy(this.persist,this));if(this.options.destroy)b(this.parentForm).on("submit reset",!1,b.proxy(this.destroy,this));this.retrieve()},getOptions:function(a){return b.extend({},b.fn[this.type].defaults,a,this.$element.data())},
@@ -12,101 +18,10 @@ remove:function(){this.remove();this.$element.is("input[type=radio], input[type=
 typeof a&&"function"===typeof g[a])return g[a]()}var f=b.extend(!0,{},b.fn.garlic.defaults,a,this.data()),e=new h,g=!1;if(!e.defined)return!1;this.each(function(){b(this).is("form")?b(this).find(f.inputs).each(function(){g=d(b(this))}):b(this).is(f.inputs)&&(g=d(b(this)))});return"function"===typeof c?c():g};b.fn.garlic.Constructor=j;b.fn.garlic.defaults={destroy:!0,inputs:"input, textarea, select",events:"DOMAttrModified textInput input change click keypress paste focus".split(" "),domain:!1,expires:!1,
 conflictManager:{enabled:!1,garlicPriority:!0,template:'<span class="garlic-swap"></span>',message:"This is your saved data. Click here to see default one",onConflictDetected:function(){return!0}},getPath:function(){},onRetrieve:function(){},onPersist:function(){}};b(window).on("load",function(){b('[data-persist="garlic"]').each(function(){b(this).garlic()})})}(window.jQuery||window.Zepto);
 
-/*!
-* Style Gravity Forms with bootstrap
-*
-* Credit to Guy at Git - https://github.com/danmasta/bootstrap-gravity-forms
-*
-*Drop in function to add Bootstrap 3 support to Gravity Forms inputs
-*
-*/
 
 
 (function($){
-    var gform = $(document).find('.gform_wrapper').attr('class');
-    if(typeof gform !== 'undefined' && gform !== 'false'){
-        $(document).on('gform_post_render',function(){
-            var form = $('.gform_wrapper');
-            var required = $('.gfield_contains_required');
-            var controlGroup = $('.gfield').not('.gsection,.gfield_html');
-            //fields for pregression
-            var fields = form.find('input, textarea, select, .gfield_radio, .gfield_checkbox').not('input[type="checkbox"], input[type="radio"], input[type="submit"], input[type="button"], input[type="hidden"]');
 
-            required.each(function(){
-                $(this).find('input, textarea, select').not('input[type="checkbox"], input[type="radio"]').attr('required', 'true');
-            });
-
-            //$(this).find('div').addClass( 'wow bounceInUp');
-
-            //form.find('form').addClass('row').find('.gform_body').addClass('col-md-6');
-
-
-			/* fields.each(function(){
-			 		//$(this).attr('data-progression', '');
-			 		//description = $(this).parent().prev('label').text();
-			 		//console.log(description);
-			        //$(this).attr('data-progression', '').attr('data-helper', description);
-			 });*/
-
-
-
-            $('.gform_fields').each(function(){
-                $(this).addClass('row');
-            });
-            controlGroup.each(function(){
-                $(this).addClass('form-group').find('input, textarea, select').not('input[type="checkbox"], input[type="radio"],.gform_button_select_files').after('<span class="help-block"></span>').addClass('form-control');
-            });
-            form.find("input[type='submit'], input[type='button']").addClass('btn btn-primary').end().find('.gfield_error').removeClass('gfield_error').addClass('has-error');
-
-            //form.find(".ginput_complex").addClass('form-inline').find('.ginput_left,.ginput_right').addClass('form-group');
-            form.find(".ginput_complex").addClass('row').find('.ginput_left,.ginput_right').addClass('col-xs-12 col-sm-6').parent().find('.ginput_full').addClass('col-xs-12');
-
-
-
-            $('.gfield_checkbox, .gfield_radio').find('input[type="checkbox"], input[type="radio"]').each(function(){
-                var sib = $(this).siblings('label');
-                //$(this).prependTo(sib); //Removed this to not move the label outside of checkbox.
-            }).end().each(function(){
-                $(this).after('<span class="help-block"></span>');
-                if($(this).is('.gfield_checkbox')){
-                    $(this).addClass('checkbox');
-                } else {
-                    $(this).addClass('radio');
-                }
-            });
-            $('.validation_message').each(function(){
-                var sib = $(this).prev().find('.help-block');
-                $(this).appendTo(sib);
-            });
-            $('.validation_error').addClass('alert alert-danger');
-            //$('.gf_progressbar').addClass('progress progress-striped active').children('.gf_progressbar_percentage').addClass('progress-bar progress-bar-success');
-        });
-    } else {
-        console.log('no forms were found');
-        return false;
-    }
-
-
-
-
-
+jQuery( '.gform_wrapper form' ).garlic();
 
 })(jQuery);
-
-
-
-
-
-
-
-
-jQuery(document).bind('gform_page_loaded', function(event, form_id, current_page){
-
-
-  //Add garlic
-jQuery( 'form' ).garlic();
-
-});
-
-
-

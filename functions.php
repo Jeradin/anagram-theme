@@ -127,7 +127,7 @@ $deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') 
 
 require get_template_directory() . '/inc/anagram-customs.php';
 
-
+require get_template_directory() . '/inc/php_gravity_forms_bootstrap.php';
 
 require get_template_directory() . '/inc/BFI_Thumb.php';
 
