@@ -25,8 +25,8 @@
 			<div class="tags-links"><?php echo get_the_tag_list( '| &nbsp;', '&nbsp;' ); // Display the tags this post has, as links separated by spaces and pipes ?></div>
 	</footer><!-- .entry-meta -->
 
-			<?php previous_post_link( '<li class="nav-previous previous">%link</li>', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'anagram_coal' ) . '</span> %title' ); ?>
-			<?php next_post_link( '<li class="nav-next next">%link</li>', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'anagram_coal' ) . '</span>' ); ?>
+			<ul class="post-nav"><?php previous_post_link( '<li class="nav-previous previous">%link</li>', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'anagram_coal' ) . '</span> Previous' ); ?>
+			<?php next_post_link( '<li class="nav-next next">%link</li>', 'Next <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'anagram_coal' ) . '</span>' ); ?></ul>
 		<?php
 					// If comments are open or we have at least one comment, load up the default comment template provided by Wordpress
 					if ( comments_open() || '0' != get_comments_number() )

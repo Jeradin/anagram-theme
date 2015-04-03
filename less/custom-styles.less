@@ -1,0 +1,363 @@
+	html
+		{
+			/* killing 300ms touch delay in IE */
+			-ms-touch-action: manipulation;
+			touch-action: manipulation;
+		}
+/* This is a small security for too long strings titles */
+body {
+    word-wrap: break-word;
+font-weight: 300;
+font-size: 16px;
+line-height: 1.428571429;
+color: #808080;
+background: #FFF;
+}
+
+
+
+
+/* Alignment */
+.alignleft {
+	display: inline;
+	float: left;
+	margin-right: 1.5em;
+}
+.alignright {
+	display: inline;
+	float: right;
+	margin-left: 1.5em;
+}
+.aligncenter {
+	clear: both;
+	display: block;
+	margin: 0 auto;
+}
+
+.breaker{
+	height:30px;
+}
+.bottom-margin{
+	margin-bottom: 30px;
+}
+.clear {
+	clear: both;
+}
+
+
+
+
+/* Images and wp-captions should always fit and be responsive */
+img {
+	display: inline-block;
+	height: auto;
+	max-width: 100%;
+}
+
+img[class*="wp-image-"] {
+	margin-top: 4px;
+	margin-bottom: 10px;
+}
+
+.wp-caption {
+	margin-bottom: 10px;
+	max-width: 100%;
+	background: #C8BDBA;
+}
+.wp-caption.aligncenter {
+	margin-bottom: 10px;
+}
+.wp-caption img[class*="wp-image-"] {
+	display: block;
+}
+.wp-caption .wp-caption-text {
+	text-align: center;
+	margin-top: 10px;
+}
+
+
+/* Make sure embeds and iframes fit their containers */
+embed,
+iframe,
+object {
+	max-width: 100%;
+}
+  video {
+            max-width: 100%;
+            height: auto;
+          }
+
+
+
+
+/* =Header
+--------------------------------------------------------------------------------------------------------*/
+
+
+
+/* =Nav
+--------------------------------------------------------------------------------------------------------*/
+
+
+/* =Content
+--------------------------------------------------------------------------------------------------------*/
+
+/* =Footer
+--------------------------------------------------------------------------------------------------------*/
+
+
+
+/* =Copyright
+--------------------------------------------------------------------------------------------------------*/
+.site-info{
+font-size:12px;
+overflow: auto;
+margin-bottom: 10px;
+color: #FFF;
+}
+.copyright{
+	text-align: left;
+}
+.footer-credit{
+ text-align: right;
+
+}
+.footer-credit img{
+ text-align: right;
+width: 60px;
+vertical-align: middle;
+}
+
+/* =Social
+--------------------------------------------------------------------------------------------------------*/
+.social-links{
+	float: right;
+	width: 30px;
+	background: @orange;
+	padding: 11px 0px;
+}
+
+.social { margin-right: 0px;float: right; }
+.social div { display:inline-block; padding: 0; }
+.social div a {display: block;  text-decoration:none; height:24px; width:24px;}
+
+/* End Social
+--------------------------------------------------------------------------------------------------------*/
+
+
+
+
+/* =Search
+--------------------------------------------------------------------------------------------------------*/
+
+.search-toggle {
+	position: relative;
+	display: inline-block;
+}
+.search-toggle i{
+	font-size: 1.3em;
+	color: @brown;
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-top: 1px;
+}
+
+.search-toggle .fa-search.active{
+	color: #FFF;
+	  position: relative;
+	  z-index: 1000;
+}
+
+.search-box-wrapper{
+	position: absolute;
+	right: 2px;
+	top: -2px;
+
+}
+
+.search-box-wrapper #searchform .form-control {
+	border: 0;
+	font-size: 16px;
+	background: #C8BDBA;
+	height: 26px;
+	padding: 0px;
+		width: 0;
+}
+.search-box-wrapper.show-search #searchform .form-control{
+	width: 200px;
+	padding: 3px;
+}
+
+
+
+/* =Backtotop
+--------------------------------------------------------------------------------------------------------*/
+#backtotop { position:absolute; right: 30px;top: 0px;display:none; z-index:30; }
+#backtotop a { display:block;float:right;}
+#backtotop a:hover {  }
+
+
+
+
+/* =Buttons
+--------------------------------------------------------------------------------------------------------*/
+.btn{
+	color: #FFF;
+	border-radius: 15px;
+	  padding: 2px 12px;
+	  text-transform: uppercase;
+}
+
+
+
+
+/* =Post List
+--------------------------------------------------------------------------------------------------------*/
+
+.entry-meta{
+
+}
+
+
+
+
+/* =Category and Tag blocks
+--------------------------------------------------------------------------------------------------------*/
+.cat-links ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.cat-links ul a{
+
+}
+.tags-links a{
+	font-size: 12px;
+	line-height: 1;
+}
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 0px;
+}
+/*.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0px;
+
+}*/
+
+
+
+
+/* =Site Editor Styles
+--------------------------------------------------------------------------------------------------------*/
+.pageheader {
+font-size: 1.2em;
+font-style: italic;
+text-align: center;
+display:block;
+padding-bottom: 10px;
+}
+.mainheader {
+font-size: 1.4em;
+font-weight: 700;
+display: block;
+padding-bottom: 10px;
+}
+.subheader {
+font-size: 1.2em;
+/* line-height: 32px; */
+font-weight: 700;
+padding-bottom: 10px;
+display: inline-block;
+text-transform: uppercase;}
+
+a.button {
+	background: #74CCE5;
+	border-radius: 3px;
+	color: #FFF;
+	display: inline-block;
+	padding: 7px 14px 5px;
+	text-decoration: none;
+}
+
+
+a.button:hover {
+	text-decoration: none;
+}
+
+
+
+
+/*==================================================
+=            Bootstrap 3 Media Queries             =
+==================================================*/
+
+
+
+
+    /*==========  Mobile First Method  ==========*/
+
+    /* Custom, iPhone Retina */
+    @media only screen and (min-width : 320px) {
+
+    }
+
+    /* Extra Small Devices, Phones */
+    @media only screen and (min-width : 480px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) {
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) {
+
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) {
+
+    }
+
+
+
+    /*==========  Non-Mobile First Method  ==========*/
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (max-width : 1200px) {
+
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 992px) {
+
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 768px) {
+
+    }
+
+    /* Extra Small Devices, Phones */
+    @media only screen and (max-width : 480px) {
+
+    }
+
+    /* Custom, iPhone Retina */
+    @media only screen and (max-width : 320px) {
+
+    }
+

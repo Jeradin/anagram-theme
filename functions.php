@@ -5,9 +5,12 @@
 	/*-----------------------------------------------------------------------------------*/
 
 // Define the version so we can easily replace it throughout the theme
-define( 'anagram_theme_version', 1.0 );
+define( 'anagramtheme_version', 1.0 );
 
-if ( ! function_exists( 'anagram_theme_setup' ) ) :
+
+
+
+if ( ! function_exists( 'anagramtheme_setup' ) ) :
 /**
  * Set up theme defaults and register support for various WordPress features.
  *
@@ -15,11 +18,11 @@ if ( ! function_exists( 'anagram_theme_setup' ) ) :
  * before the init hook. The init hook is too late for some features, such as indicating
  * support post thumbnails.
  */
-function anagram_theme_setup() {
+function anagramtheme_setup() {
     global $cap, $content_width;
 
 
-    add_editor_style('/inc/editor-styles.css');
+       add_editor_style('/css/editor-styles.css');
 
     if ( function_exists( 'add_theme_support' ) ) {
 
@@ -39,6 +42,14 @@ function anagram_theme_setup() {
 			//add_image_size( 'tiny', 75, '', false );
 			//add_image_size( 'block-image', 300, 170, true );
 
+		add_filter( 'image_size_names_choose', 'anagram_custom_sizes' );
+
+			function anagram_custom_sizes( $sizes ) {
+			    return array_merge( $sizes, array(
+			        'post-thumbnail' => __('Post Thumbnail'),
+			    ) );
+			}
+
 		add_theme_support( 'html5', array( 'comment-list', 'comment-form', 'search-form', 'gallery', 'caption' ) );
     }
 
@@ -47,12 +58,78 @@ function anagram_theme_setup() {
 	 * This theme uses wp_nav_menu() in one location.
 	*/
     register_nav_menus( array(
-        'primary'  => __( 'Header bottom menu', 'anagram_theme' ),
+        'primary'  => __( 'Header Menu', 'anagramtheme' ),
     ) );
 
 }
-endif; // anagram_theme_setup
-add_action( 'after_setup_theme', 'anagram_theme_setup' );
+endif; // anagramtheme_setup
+add_action( 'after_setup_theme', 'anagramtheme_setup' );
+
+
+/*Custom Tiny MCS buttons*/
+add_filter( 'mce_buttons', 'anagram_mce_buttons' );
+function anagram_mce_buttons( $buttons ) {
+    array_unshift( $buttons, 'styleselect' );
+    return $buttons;
+}
+function anagram_tinymce_buttons($buttons)
+ {
+	//Remove the format dropdown select and text color selector
+	$remove = array('formatselect');
+
+	return array_diff($buttons,$remove);
+ }
+add_filter('mce_buttons_2','anagram_tinymce_buttons');
+
+add_filter( 'tiny_mce_before_init', 'anagram_mce_before_init' );
+function anagram_mce_before_init( $settings ) {
+	//$settings['theme_advanced_blockformats'] = 'p,a,div,span,h1,h2,h3,h4,h5,h6,tr,';
+	$settings['theme_advanced_disable'] = 'formatselect';
+
+    $style_formats = array(
+    	array(
+    		'title' => 'Button',
+    		'selector' => 'a',
+    		'classes' => 'btn btn-default'
+    	),
+    	array(
+    		'title' => 'Main Header',
+    		'block' => 'h2'
+    	),
+    	array(
+    		'title' => 'Sub Header',
+    		'block' => 'h3'
+    	),
+    	array(
+    		'title' => 'Small Header',
+    		'block' => 'h4'
+    	),
+    	array(
+    		'title' => 'Blue Header',
+    		'block' => 'h3',
+    		'classes' => 'blue'
+    	),
+    	array(
+    		'title' => 'Black Bold',
+    		'inline' => 'span',
+    		'classes' => 'black-bold'
+    	)/*,
+        array(
+        	'title' => 'Bold Red Text',
+        	'inline' => 'span',
+        	'styles' => array(
+        		'color' => '#f00',
+        		'fontWeight' => 'bold'
+        	)
+        )*/
+    );
+
+    $settings['style_formats'] = json_encode( $style_formats );
+
+    return $settings;
+
+}
+
 
 
 
@@ -61,9 +138,9 @@ add_action( 'after_setup_theme', 'anagram_theme_setup' );
 /**
  * Register widgetized area and update sidebar with default widgets
  */
-function anagram_theme_widgets_init() {
+function anagramtheme_widgets_init() {
 	register_sidebar( array(
-		'name'          => __( 'Sidebar', 'anagram_theme' ),
+		'name'          => __( 'Sidebar', 'anagramtheme' ),
 		'id'            => 'sidebar',
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget'  => '</aside>',
@@ -71,63 +148,131 @@ function anagram_theme_widgets_init() {
 		'after_title'   => '</h3>',
 	) );
 }
-add_action( 'widgets_init', 'anagram_theme_widgets_init' );
+add_action( 'widgets_init', 'anagramtheme_widgets_init' );
 
 /*-----------------------------------------------------------------------------------*/
 /* Enqueue Styles and Scripts
 /*-----------------------------------------------------------------------------------*/
 
-function anagram_theme_scripts()  {
+function anagramtheme_scripts()  {
 
-		// load bootstrap
-	wp_enqueue_style( 'anagram_theme-bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css' );
-
+	// load bootstrap
+	//wp_enqueue_style( 'anagramtheme-bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css' );
 
 	// get the theme directory style.css and link to it in the header
-	wp_enqueue_style( 'anagram_theme-style', get_stylesheet_directory_uri().'/style.css', array(), filemtime( get_stylesheet_directory().'/style.css') );
+	wp_enqueue_style( 'anagramtheme-style', get_stylesheet_directory_uri().'/style.css', array(), filemtime( get_stylesheet_directory().'/style.css') );
 
-	/*$my_query_args = array(
-            'family' => 'Strait|Roboto:400,300,300italic,400italic,100'
-            // 'family' => 'Strait|Roboto:400,300,300italic,400italic,100'
-        );
-    wp_enqueue_style('custom-google-fonts', add_query_arg( $my_query_args, "http://fonts.googleapis.com/css" ), array(), null );*/
+	//Load google fonts
+	$anagram_google_fonts = array(
+	    'family' => 'Strait|Roboto:400,300,300italic,400italic,100'
+	);
+    wp_enqueue_style('anagramtheme-google-fonts', add_query_arg( $anagram_google_fonts, "https://fonts.googleapis.com/css" ), array(), null );
 
 	// load awesome font
-	wp_enqueue_style( 'anagram_theme-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css' );
-
-	 // load gforms-style.css
-	wp_enqueue_style( 'anagram_gforms-style', get_stylesheet_directory_uri().'/css/gforms-style.css', array(), filemtime( get_stylesheet_directory().'/css/gforms-style.css') );
+	wp_enqueue_style( 'anagramtheme-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.css' );
 
     // load bootstrap js
-    wp_enqueue_script('anagram_theme-bootstrapjs', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js', array('jquery') );
+   // wp_enqueue_script('anagramtheme-bootstrapjs', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js', array('jquery') );
 
 	// load plugins
-	wp_enqueue_script('anagram_theme-plugins', (get_template_directory_uri()."/js/theme-plugins.js"),'jquery',filemtime( get_stylesheet_directory().'/js/theme-plugins.js'),true);
-
-			// add theme scripts
-	wp_enqueue_script('anagram_howto-gform', (get_template_directory_uri()."/js/gforms-custom.js"),'jquery',filemtime( get_stylesheet_directory().'/js/gforms-custom.js'),true);
-
+	wp_enqueue_script('anagramtheme-plugins', (get_template_directory_uri()."/js/theme-plugins.js"),'jquery',filemtime( get_stylesheet_directory().'/js/theme-plugins.js'),true);
 
 	// add theme scripts
-	wp_enqueue_script('anagram_theme-scripts', (get_template_directory_uri()."/js/theme-scripts.js"),'jquery',filemtime( get_stylesheet_directory().'/js/theme-scripts.js'),true);
+	wp_enqueue_script('anagramtheme-scripts', (get_template_directory_uri()."/js/theme-scripts.js"),'jquery',filemtime( get_stylesheet_directory().'/js/theme-scripts.js'),true);
 
 }
-add_action( 'wp_enqueue_scripts', 'anagram_theme_scripts' ); // Register this fxn and allow Wordpress to call it automatcally in the header
+add_action( 'wp_enqueue_scripts', 'anagramtheme_scripts' ); // Register this fxn and allow Wordpress to call it automatcally in the header
+
+
+
+
+
+/**
+ * Custom Theme functions
+ */
+
+	include_once('inc/anagram-customs.php');
 
 /**
  * Load custom WordPress nav walker.
  */
-require get_template_directory() . '/inc/bootstrap-wp-navwalker.php';
+
+include_once('inc/bootstrap-wp-navwalker.php');
 
 
-require get_template_directory() . '/inc/mobile_detect.php';
-$detect = new Mobile_Detect;
-$deviceType = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
+/**
+ * Load custom Gallery
+ */
+include_once('inc/anagram-gallery.php');
 
 
-require get_template_directory() . '/inc/anagram-customs.php';
 
-require get_template_directory() . '/inc/php_gravity_forms_bootstrap.php';
 
-require get_template_directory() . '/inc/BFI_Thumb.php';
+/*Load default settings on theme activation*/
+add_action('after_switch_theme', 'anagram_defaults_settings');
+
+function anagram_defaults_settings() {
+    global $wpdb, $wp_rewrite, $table_prefix;
+
+    /* * ANAGRAM ADDITIONS * Customize Some Options */
+
+    //Disable Avatar Call
+	update_option( 'show_avatars', 0 );
+	update_option( 'avatar_default', 'blank' );
+
+	//Dsiable pings
+	update_option( 'default_ping_status', 'closed' );
+
+	//Disable User registration
+	update_option( 'users_can_register', 0 );
+
+	//Set default lang
+	update_option( 'WPLANG', '' );
+
+
+	//Add purchase keys to default plugins
+	update_option( 'cpupdate_cac-pro', '99e74138-8a53-4c16-abe0-87cbd181f597' );
+	update_option( 'acf_pro_license', 'YToyOntzOjM6ImtleSI7czo3MjoiYjNKa1pYSmZhV1E5TXpJNU56QjhkSGx3WlQxa1pYWmxiRzl3WlhKOFpHRjBaVDB5TURFMExUQTNMVEEzSURFMk9qQTBPalU1IjtzOjM6InVybCI7czozMjoiaHR0cDovL2Rldi4xOTIuMTY4LjIyMi41MC54aXAuaW8iO30=' );
+	update_option( 'rg_gforms_key', '38fd93100c2666e5ecd12efa6ced7e8d' );
+	update_option( 'rg_gforms_enable_html5', '1' );
+
+    // Set Timezone
+    $timezone = "America/Denver";
+    update_option( 'timezone_string', $timezone );
+
+	//site slogan
+	update_option( 'blogdescription', 'Custom site built by ANAGR.AM' );
+
+    // Start of the Week
+    // 0 is Sunday, 1 is Monday and so on
+    update_option( 'start_of_week', 0 );
+
+    // Disable Smilies
+    update_option( 'use_smilies', 0 );
+
+	//Set default Default file insert to none instead of attachment page
+	update_option( 'image_default_link_type', 'none' );
+
+    // Don't Organize Uploads by Date
+    update_option('uploads_use_yearmonth_folders',1);
+
+
+    update_option( 'thumbnail_size_w', 125 );
+	update_option( 'thumbnail_size_h', 125 );
+	update_option( 'thumbnail_crop', '1' );
+
+	update_option( 'medium_size_w', 750 );
+	update_option( 'medium_size_h', 9999 );
+
+	update_option( 'large_size_w', 1140 );
+	update_option( 'large_size_h', 9999 );
+
+    // Update Permalinks
+    update_option( 'selection','custom' );
+    update_option( 'permalink_structure','/%postname%/' );
+    $wp_rewrite->init();
+    $wp_rewrite->flush_rules();
+
+}
+
 

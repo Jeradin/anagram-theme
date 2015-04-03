@@ -38,7 +38,7 @@
 
 </article><!-- #post-## -->
 		<?php endwhile; ?>
-
+		<ul>
 			<?php if ( get_next_posts_link() ) : ?>
 			<li class="nav-previous previous"><?php next_posts_link( __( '<span class="meta-nav">&larr;</span> Older posts', 'anagram_coal' ) ); ?></li>
 			<?php endif; ?>
@@ -46,7 +46,7 @@
 			<?php if ( get_previous_posts_link() ) : ?>
 			<li class="nav-next next"><?php previous_posts_link( __( 'Newer posts <span class="meta-nav">&rarr;</span>', 'anagram_coal' ) ); ?></li>
 			<?php endif; ?>
-
+		</ul>
 	<?php else : ?>
 
 		<section class="no-results not-found">
