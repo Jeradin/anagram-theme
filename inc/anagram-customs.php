@@ -107,5 +107,5 @@ function custom_sort_pre_get_posts( $query ) {
    // is_tax('work_type')
 
 }
-add_filter('pre_get_posts' , 'custom_sort_pre_get_posts');
+//add_filter('pre_get_posts' , 'custom_sort_pre_get_posts');
 
